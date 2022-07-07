@@ -29,21 +29,18 @@ dag = DAG(
 t1 = BashOperator(
     task_id='twitter_scraping',
     bash_command='python3 /home/jieying/scripts/twitter_scraping.py',
-    # bash_command='sleep 2',
     dag=dag
 )
 
 t2 = BashOperator(
     task_id='news_scraping',
     bash_command='python3 /home/jieying/scripts/news_scraping.py',
-    # bash_command='sleep 3',
     dag=dag
 )
 
 t3 = BashOperator(
     task_id='spark_structured_streaming',
     bash_command='python3 /home/jieying/scripts/spark_structured_streaming.py',
-    # bash_command='sleep 5',
     dag=dag,
     trigger_rule=TriggerRule.ALL_SUCCESS
 )
