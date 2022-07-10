@@ -1,7 +1,7 @@
-﻿ticker_symbol,keywords
-AAPL,$AAPL; Apple Inc; Tim Cook
-MSFT,$MSFT; Microsoft Corp; Microsoft Corporation
-GOOGL,$GOOGL; $GOOG; Alphabet Inc
-TSLA,"$TSLA; Tesla, Inc; Elon Musk"
-META,"$META; Meta Platforms, Inc"
-NVDA,$NVDA; NVIDIA Corporation
+ticker_symbol,search_term
+AAPL,"""$AAPL"" OR ""Apple Inc"" OR ""Tim Cook"""
+MSFT,"""$MSFT"" OR ""Microsoft Corp"" OR ""Microsoft Corporation"""
+GOOGL,"""$GOOGL"" OR ""$GOOG"" OR ""Alphabet Inc"""
+TSLA,"""$TSLA"" OR ""Tesla, Inc"""
+META,"""$META"" OR ""Meta Platforms, Inc"""
+NVDA,"""$NVDA"" OR ""NVIDIA Corporation"""
