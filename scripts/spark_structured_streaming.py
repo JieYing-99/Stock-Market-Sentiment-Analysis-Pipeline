@@ -6,6 +6,7 @@ from pyspark.sql.types import *
 import re
 import time
 import preprocessor
+from langdetect import detect
 import os
 import sys
 os.environ['PYSPARK_PYTHON'] = sys.executable
@@ -68,12 +69,17 @@ def write_kafka_stream(stream_df, kafka_topic, checkpoint_path):
     return output_query
 
 def preprocess_tweet(text):
-    preprocessor.clean(text)
-    text = text.replace('\\', '')
-    # text = re.sub('@\w+', '', text)
-    # text = re.sub('#\w+', '', text)
+    text = preprocessor.clean(text)
+    text = re.sub('\$\w+','', text)
     text = re.sub(' +', ' ', text).strip()
     return text
+
+def detect_language(text):
+    try:
+        language = detect(text)
+    except:
+        language = 'unknown'
+    return language
 
 def process_twitter_kafka_stream(spark, classify_udf):
     print(f'Reading stream from "{TWITTER_RAW_TOPIC}" topic')
@@ -85,9 +91,14 @@ def process_twitter_kafka_stream(spark, classify_udf):
     stream_df = read_kafka_stream(spark, TWITTER_RAW_TOPIC, stream_schema)
 
     print(f'Processing tweets')
+
     preprocess_udf = udf(preprocess_tweet, StringType())
     preprocessed_df = stream_df.select('date', 'ticker_symbol', 'link', 'tweet', preprocess_udf('tweet').alias('tweet_preprocessed'))
-    processed_df = preprocessed_df.select('date', 'ticker_symbol', 'link', 'tweet', 'tweet_preprocessed', classify_udf('tweet_preprocessed').alias('sentiment'))
+    
+    detect_lang_udf = udf(detect_language, StringType())
+    detect_lang_df = preprocessed_df.select('date', 'ticker_symbol', 'link', 'tweet', 'tweet_preprocessed', detect_lang_udf('tweet_preprocessed').alias('language'))
+
+    processed_df = detect_lang_df.select('date', 'ticker_symbol', 'link', 'tweet', 'tweet_preprocessed', 'language', classify_udf('tweet_preprocessed').alias('sentiment'))
 
     print(f'Writing processed tweets to "{TWITTER_SENTIMENT_TOPIC}" topic')
     output_query = write_kafka_stream(processed_df, TWITTER_SENTIMENT_TOPIC, TWITTER_CHECKPOINT)

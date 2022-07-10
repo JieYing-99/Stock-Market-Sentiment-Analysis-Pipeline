@@ -8,14 +8,15 @@ from common import DRUID_OVERLORD_SOCKET, DRUID_BROKER_SOCKET, convert_timestamp
 
 DRUID_SUPERVISOR_ENDPOINT = f'http://{DRUID_OVERLORD_SOCKET}/druid/indexer/v1/supervisor'
 DRUID_TASKS_ENDPOINT = f'http://{DRUID_OVERLORD_SOCKET}/druid/indexer/v1/tasks'
+DRUID_TASK_ENDPOINT = f'http://{DRUID_OVERLORD_SOCKET}/druid/indexer/v1/task'
 
 DRUID_INGESTION_SPEC_PATH = 'input/druid_ingestion_specs/{}.json'
 
-def submit_supervisor_spec(data_source):
-    with open(DRUID_INGESTION_SPEC_PATH.format(data_source)) as json_file:
-        json_data = json.load(json_file)
-    response = requests.post(DRUID_SUPERVISOR_ENDPOINT, json=json_data).json()
-    print(response)
+# def submit_supervisor_spec(data_source):
+#     with open(DRUID_INGESTION_SPEC_PATH.format(data_source)) as json_file:
+#         json_data = json.load(json_file)
+#     response = requests.post(DRUID_SUPERVISOR_ENDPOINT, json=json_data).json()
+#     print(f'{data_source} --> {response}')
 
 def get_supervisor_ids():
     response = requests.get(DRUID_SUPERVISOR_ENDPOINT).json()
@@ -82,8 +83,12 @@ if __name__ == '__main__':
         print(f'\n --{data_source}--')
         resume_supervisor(data_source)
         task_id = get_running_task_id(data_source)
+        n_attemps = 0
         while (not get_task_status(data_source, task_id)):
-            time.sleep(3)
+          n_attemps += 1
+          if n_attemps > 5:
+            break
+          time.sleep(3)
         get_latest_timestamp(data_source)
         suspend_supervisor(data_source)
         time.sleep(5)
