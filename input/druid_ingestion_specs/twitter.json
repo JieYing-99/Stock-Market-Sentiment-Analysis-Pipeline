@@ -42,6 +42,12 @@
           },
           {
             "type": "string",
+            "name": "language",
+            "multiValueHandling": "SORTED_ARRAY",
+            "createBitmapIndex": true
+          },
+          {
+            "type": "string",
             "name": "sentiment",
             "multiValueHandling": "SORTED_ARRAY",
             "createBitmapIndex": true
@@ -62,7 +68,12 @@
         "intervals": []
       },
       "transformSpec": {
-        "filter": null,
+        "filter": {
+          "type": "selector",
+          "dimension": "language",
+          "value": "en",
+          "extractionFn": null
+        },
         "transforms": []
       }
     },
@@ -106,7 +117,7 @@
       "maxRowsPerSegment": 5000000,
       "maxTotalRows": null,
       "intermediatePersistPeriod": "PT10M",
-      "basePersistDirectory": "/home/jieying/apache-druid-0.22.1/var/tmp/druid-realtime-persist4973987763826511076",
+      "basePersistDirectory": "/home/jieying/apache-druid-0.22.1/var/tmp/druid-realtime-persist5866570689225928034",
       "maxPendingPersists": 0,
       "indexSpec": {
         "bitmap": {

@@ -39,6 +39,7 @@
           "__time"
         ]
       },
+      "metricsSpec": [],
       "granularitySpec": {
         "type": "uniform",
         "segmentGranularity": "HOUR",
@@ -93,7 +94,7 @@
       "maxRowsPerSegment": 5000000,
       "maxTotalRows": null,
       "intermediatePersistPeriod": "PT10M",
-      "basePersistDirectory": "/home/jieying/apache-druid-0.22.1/var/tmp/druid-realtime-persist6126021366965971302",
+      "basePersistDirectory": "/home/jieying/apache-druid-0.22.1/var/tmp/druid-realtime-persist3784518821621775762",
       "maxPendingPersists": 0,
       "indexSpec": {
         "bitmap": {
