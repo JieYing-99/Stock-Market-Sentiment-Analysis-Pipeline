@@ -88,19 +88,19 @@ This project aggregates data from multiple sources and generates insights about 
 Follow the installation and configuration guides provided below.
 
 1. Confluent Platform
-https://docs.confluent.io/platform/current/installation/installing_cp/zip-tar.html
+<br/>https://docs.confluent.io/platform/current/installation/installing_cp/zip-tar.html
 
 2. Apache Spark
-https://spark.apache.org/downloads.html
+<br/>https://spark.apache.org/downloads.html
 
 3. Apache Druid
-https://druid.apache.org/docs/latest/tutorials/index.html
+<br/>https://druid.apache.org/docs/latest/tutorials/index.html
 
 4. Apache Airflow
-https://airflow.apache.org/docs/apache-airflow/stable/installation/index.html
+<br/>https://airflow.apache.org/docs/apache-airflow/stable/installation/index.html
 
 5. MySQL
-https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-22-04
+<br/>https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-22-04
 
 6. Python packages
   ```sh
